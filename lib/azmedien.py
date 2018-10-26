@@ -106,7 +106,9 @@ class CustomerAddon(object):
         self.icon = icon
         self.fanart = fanart
         self.language = self.real_settings.getLocalizedString
-        self.debug = (self.real_settings.getSetting(debug_identifier) == 'true')
+        self.debug = (self.real_settings.getSetting(
+            debug_identifier) == 'true')
+
 
 class AZMedien(object):
     def __init__(self, customer, host='telezueri.ch'):
@@ -114,11 +116,7 @@ class AZMedien(object):
         self.ydl = YoutubeDL()
         self.partner_id = '1719221'
         self.host = host
-
         self.customer = customer
-
-        # self.addon_id = ADDON_ID
-        # self.real_settings = 
 
     def api_url(self):
         """
@@ -126,31 +124,31 @@ class AZMedien(object):
         """
         name, _ = self.host.split('.')
         return 'https://www.%s/api/pub/gql/%s' % (self.host, name)
-    
+
     def icon(self):
         """
         Returns the customer's addon icon.
         """
         return self.customer.icon
-    
+
     def fanart(self):
         """
         Returns the customer's fan art.
         """
         return self.customer.fanart
-    
+
     def language(self):
         """
         Returns the customer's language.
         """
         return self.customer.language
-    
+
     def addon_id(self):
         """
         Returns the customer's addon id.
         """
         return self.customer.addon_id
-    
+
     def debug(self):
         """
         Returns the state of the customers debug label.
@@ -191,7 +189,8 @@ class AZMedien(object):
         req = requests.post(
             self.api_url(), data=json.dumps(payload).encode(), headers=headers)
         if not req.ok:
-            log('build_all_shows_menu: Request failed.', level=xbmc.LOGERROR, debug=self.debug())
+            log('build_all_shows_menu: Request failed.',
+                level=xbmc.LOGERROR, debug=self.debug())
         return req.json()
 
     def build_main_menu(self):
@@ -555,7 +554,8 @@ class AZMedien(object):
                     fanart = elem['imageUrl']
         except Exception:
             fanart = None
-            log('extract_show_info: No fanart for show %s.' % relative_url, debug=self.debug())
+            log('extract_show_info: No fanart for show %s.' % relative_url,
+                debug=self.debug())
         for (i, item) in enumerate(js['data']['pageForUrl']['page']['slots']):
             if select_group:
                 if not item.get('group') == select_group:
@@ -590,7 +590,8 @@ class AZMedien(object):
                 kaltura_id = None
                 duration = None
                 log(('extract_show_info: Could not extract title or Kaltura '
-                     'ID for element %d in show %s') % (i, relative_url), debug=self.debug())
+                     'ID for element %d in show %s') % (i, relative_url),
+                    debug=self.debug())
                 if not is_folder:
                     continue
 
