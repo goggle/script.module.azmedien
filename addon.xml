@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.azmedien" name="AZ Medien" version="0.7.9" provider-name="Alexander Seiler">
+<addon id="script.module.azmedien" name="AZ Medien" version="0.9.0" provider-name="Alexander Seiler">
   <requires>
     <import addon="xbmc.python" version="2.25.0"/>
     <import addon="script.module.requests" version="2.19.1"/>
@@ -20,11 +20,11 @@
     <website></website>
     <email>seileralex@gmail.com</email>
     <source>https://github.com/goggle/module.script.azmedien</source>
-    <news>vx.y.z (2018-10-xx) TODO
+    <news>v0.9.0 (2018-10-26)
 First release:
  - Get all available shows.
  - Get the most recent episodes of a given show.
- - API access of the /videos page.</news>
+ - API access of the /videos (also /news, /sport, etc.) page.</news>
     <assets>
         <icon>resources/icon.png</icon>
     </assets>
