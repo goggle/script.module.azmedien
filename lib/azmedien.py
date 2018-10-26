@@ -41,7 +41,6 @@ REAL_SETTINGS = xbmcaddon.Addon(id=ADDON_ID)
 ADDON_NAME = REAL_SETTINGS.getAddonInfo('name')
 ADDON_VERSION = REAL_SETTINGS.getAddonInfo('version')
 ICON = REAL_SETTINGS.getAddonInfo('icon')
-FANART = REAL_SETTINGS.getAddonInfo('fanart')
 LANGUAGE = REAL_SETTINGS.getLocalizedString
 CONTENT_TYPE = 'videos'
 
@@ -71,7 +70,7 @@ def get_params():
 
 class CustomerAddon(object):
     def __init__(self, addon_id=ADDON_ID, real_settings=REAL_SETTINGS,
-                 icon=ICON, fanart=FANART,
+                 icon=ICON, fanart=None,
                  debug_identifier='Enable_Debugging'):
         self.addon_id = addon_id
         self.real_settings = real_settings
