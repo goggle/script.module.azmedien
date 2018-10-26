@@ -363,8 +363,6 @@ class AZMedien(object):
                     kaltura_id=show['kaltura_id'])
             xbmcplugin.addDirectoryItem(
                 int(sys.argv[1]), url, list_item, isFolder=show['is_folder'])
-            # xbmcplugin.addDirectoryItem(
-            #     int(sys.argv[1]), url, list_item, isFolder=show['is_folder'])
 
     def extract_playlist(self, article_id, fanart=None):
         query = """query VideoContext($articleId: ID!) {
