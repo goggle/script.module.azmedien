@@ -335,6 +335,7 @@ class AZMedien(object):
                 'thumb': show['image'],
                 'poster': show['image'],
                 'fanart': show['fanart'],
+                'banner': show['fanart']
             })
 
             # We currently do not add dates to the show, because they
