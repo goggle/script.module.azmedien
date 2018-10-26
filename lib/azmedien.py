@@ -23,7 +23,6 @@ import sys
 import traceback
 
 import json
-import socket
 import urllib
 import urlparse
 
@@ -33,26 +32,9 @@ import xbmcplugin
 import xbmcaddon
 
 import requests
-
 # import dateutil.parser
 from youtube_dl import YoutubeDL
 import YDStreamExtractor
-
-try:
-    CompatStr = unicode  # Python2
-except NameError:
-    CompatStr = str  # Python3
-
-
-def get_boolean_setting(label):
-    """
-    Retrieve the boolean value of a setting switch.
-
-    Keyword arguments:
-    label -- the settings label
-    """
-    return REAL_SETTINGS.getSetting(label) == 'true'
-
 
 ADDON_ID = 'script.module.azmedien'
 REAL_SETTINGS = xbmcaddon.Addon(id=ADDON_ID)
@@ -61,18 +43,8 @@ ADDON_VERSION = REAL_SETTINGS.getAddonInfo('version')
 ICON = REAL_SETTINGS.getAddonInfo('icon')
 FANART = REAL_SETTINGS.getAddonInfo('fanart')
 LANGUAGE = REAL_SETTINGS.getLocalizedString
-PROFILE = xbmc.translatePath(
-    REAL_SETTINGS.getAddonInfo('profile')).decode("utf-8")
-
-TIMEOUT = 30
 CONTENT_TYPE = 'videos'
-# DEBUG = get_boolean_setting('Enable_Debugging')
 
-
-socket.setdefaulttimeout(TIMEOUT)
-
-
-# General helper functions:
 
 def log(msg, level=xbmc.LOGDEBUG, debug=False):
     """
