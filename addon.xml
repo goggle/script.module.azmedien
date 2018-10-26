@@ -20,13 +20,13 @@
     <website></website>
     <email>seileralex@gmail.com</email>
     <source>https://github.com/goggle/module.script.azmedien</source>
-    <news></news>
+    <news>vx.y.z (2018-10-xx) TODO
+First release:
+ - Get all available shows.
+ - Get the most recent episodes of a given show.
+ - API access of the /videos page.</news>
     <assets>
         <icon>resources/icon.png</icon>
-        <!-- <fanart>resources/fanart.jpg</fanart> -->
-        <!-- <screenshot>resources/screenshot-01.png</screenshot> -->
-        <!-- <screenshot>resources/screenshot-02.png</screenshot> -->
-        <!-- <screenshot>resources/screenshot-03.png</screenshot> -->
     </assets>
   </extension>
 </addon>
