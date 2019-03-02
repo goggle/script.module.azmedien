@@ -24,7 +24,11 @@ import traceback
 
 import json
 import urllib
-import urlparse
+
+try:  # Python 2
+    import urlparse
+except ImportError:  # Python 3
+    from urllib.parse import urlparse
 
 import xbmc
 import xbmcgui
