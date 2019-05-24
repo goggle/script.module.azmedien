@@ -23,17 +23,16 @@ import sys
 import traceback
 
 import json
-import urllib
 
-try:  # Python 2
-    import urlparse
-except ImportError:  # Python 3
-    from urllib.parse import urlparse
+try:  # Python 3
+    from urllib.parse import unquote_plus, quote_plus, parse_qsl
+    # from urllib.parse import urlparse as urlps
+except ImportError:  # Python 2
+    from urllib import unquote_plus, quote_plus
+    from urlparse import parse_qsl
+    # from urlparse import urlparse as urlps
 
-import xbmc
-import xbmcgui
-import xbmcplugin
-import xbmcaddon
+from kodi_six import xbmc, xbmcgui, xbmcplugin, xbmcaddon
 
 import requests
 # import dateutil.parser
@@ -59,17 +58,15 @@ def log(msg, level=xbmc.LOGDEBUG, debug=False):
     debug -- a boolean to indicate if a more verbose output
              for debugging reasins is desired (default: False)
     """
-    if isinstance(msg, str):
-        msg = msg.decode('utf-8')
     if debug:
         if level == xbmc.LOGERROR:
             msg += ' ,' + traceback.format_exc()
     message = ADDON_ID + '-' + ADDON_VERSION + '-' + msg
-    xbmc.log(msg=message.encode('utf-8'), level=level)
+    xbmc.log(msg=message, level=level)
 
 
 def get_params():
-    return dict(urlparse.parse_qsl(sys.argv[2][1:]))
+    return dict(parse_qsl(sys.argv[2][1:]))
 
 
 class CustomerAddon(object):
@@ -149,7 +146,7 @@ class AZMedien(object):
         for query, qname in zip(queries, query_names):
             if query:
                 add = '?' if not added else '&'
-                purl += '%s%s=%s' % (add, qname, urllib.quote_plus(query))
+                purl += '%s%s=%s' % (add, qname, quote_plus(query))
                 added = True
         return purl
 
@@ -161,11 +158,13 @@ class AZMedien(object):
         payload  -- The data to send as a dictionary.
         headers  -- The request headers.
         """
+        data = json.dumps(payload).encode()
         req = requests.post(
-            self.api_url(), data=json.dumps(payload).encode(), headers=headers)
+            self.api_url(), data=data, headers=headers)
         if not req.ok:
-            log('build_all_shows_menu: Request failed.',
-                level=xbmc.LOGERROR, debug=self.debug())
+            log('request_json: Request failed; data=%s, headers=%s' % (
+                str(data), str(headers)), level=xbmc.LOGERROR,
+                debug=self.debug())
         return req.json()
 
     def build_main_menu(self):
@@ -578,9 +577,12 @@ class AZMedien(object):
             try:
                 image = item['context']['teaserImage']['imageUrl']
             except Exception:
-                image = None
-                log('extract_show_info: No image for %s' %
-                    item['context']['id'], debug=self.debug())
+                try:
+                    image = item['context']['teaserImage']
+                except Exception:
+                    image = None
+                    log('extract_show_info: No image for %s' %
+                        item['context']['id'], debug=self.debug())
             try:
                 date = item['context']['dc']['effective']
             except Exception:
@@ -625,11 +627,11 @@ def run(customer, host='telezueri.ch'):
     """
     params = get_params()
     try:
-        url = urllib.unquote_plus(params['url'])
+        url = unquote_plus(params['url'])
     except Exception:
         url = None
     try:
-        name = urllib.unquote_plus(params['name'])
+        name = unquote_plus(params['name'])
     except Exception:
         name = None
     try:
@@ -637,19 +639,17 @@ def run(customer, host='telezueri.ch'):
     except Exception:
         mode = None
     try:
-        group = urllib.unquote_plus(params['group'])
+        group = unquote_plus(params['group'])
     except Exception:
         group = None
     try:
-        kaltura_id = urllib.unquote_plus(params['kaltura_id'])
+        kaltura_id = unquote_plus(params['kaltura_id'])
     except Exception:
         kaltura_id = None
 
-    log('Mode: ' + str(mode))
-    log('URL : ' + str(url))
-    log('Name: ' + str(name))
-    log('Group: ' + str(group))
-    log('Kaltura ID: ' + str(kaltura_id))
+    log('Mode: %s, URL: %s, Name: %s, Group: %s, Kaltura ID: %s' % (
+        str(mode), str(url), str(name), str(group), str(kaltura_id)),
+        debug=True)
 
     if mode is None:
         AZMedien(customer, host).build_main_menu()
