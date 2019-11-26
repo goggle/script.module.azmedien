@@ -7,8 +7,7 @@
     <!-- <import addon="script.module.dateutil" version="2.7.3"/> -->
     <import addon="script.module.kodi-six" version="0.0.2"/>
   </requires>
-  <extension point="xbmc.python.module" library="lib">
-  </extension>
+  <extension point="xbmc.python.module" library="lib"/>
   <extension point="xbmc.addon.metadata">
     <summary lang="en_GB">TV station content of the AZ Medien group</summary>
     <summary lang="de_DE">Inhalte der TV Stationen der AZ Medien Gruppe</summary>
